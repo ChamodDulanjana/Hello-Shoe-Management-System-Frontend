@@ -1,0 +1,46 @@
+html{
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bs-white) !important;
+}
+
+.LoginForm{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-image: url(../img/loging_bg.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.LoginForm .left img{
+    width: 650px;
+}
+
+.LoginForm .right{
+    position: relative;
+    top: -50px;
+    left: -60px;
+    padding: 50px 80px;
+}
+
+.LoginForm .right h1{
+    font-family: "Poetsen One", sans-serif;
+    font-size: 50px;
+}
+
+.span_to{
+    font-family: "Fira Sans", sans-serif;
+    font-size: 30px;
+}
+
+.span_hello_shoes{
+    font-family: "Sevillana", cursive;
+    font-weight: 500;
+    font-size: 100px;
+}
