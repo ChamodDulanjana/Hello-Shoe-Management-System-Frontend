@@ -1,64 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html class="no-js scroll-smooth" lang="">
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta name="author" content="Chamod Dulanjana Perera">
     <meta name="description" content="This is a web application for Shoe management system">
     <meta
-            property="og:image" content="assets/img/icons8-shoe-100.png"/>
+            property="og:image" content="./public/assets/img/sport_14540393.png"/>
     <meta
             property="og:description" content="Hello Shoe"/>
     <meta property="og:title" content="Hello Shoe"/>
     <title>Hello Shoe System</title>
-
-    <link rel="stylesheet" href="assets/styles/normalize.css">
-    <link rel="stylesheet" href="assets/styles/Styles.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Sevillana&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Sevillana&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/solid.css">
-
+    <link href="./public/assets/css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./public/assets/img/logo.ico">
 </head>
-<body>
-    <section class="LoginForm">
-        <div class="left">
-            <img src="assets/img/logshoes.png" alt="">
+
+<body class="flex justify-center items-center min-h-screen">
+<main class="lg:flex hidden justify-center items-center min-h-screen transition-all duration-500 relative overflow-x-hidden">
+    <div class="flex m-1 gap-5 flex-row items-center justify-centers transition-all duration-300 absolute top-0 right-[-100%] bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+         id="alert"
+         role="alert">
+        <div>
+            <p class="font-bold">Be Warned</p>
+            <p id="alertDescription">Something Went Wrong</p>
         </div>
-        <div class="right">
-            <h1>Welcome <span class="span_to">to</span> <br> <span class="span_hello_shoes">Hello Shoes</span> </h1>
-
-            <form action="#" method="post">
-
-                <div class="login_fields">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="email" name="email" placeholder="Email" class="login_placeholder">
-                </div>
-
-                <div class="login_fields">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" name="password" placeholder="Password" class="login_placeholder">
-                </div>
-
-                <button type="submit" onclick="loginBtn()">Login</button>
-
-                <p class="forget">Forget Password ?</p>
-
-
-            </form>
+        <button class="font-black hover:cursor-hand" id="alertCloseBtn">X</button>
+    </div>
+    <section
+            class="flex-col flex rounded-xl items-center bg-blue-100 shadow mx-auto my-auto relative w-fit h-fit lg:h-[35rem] justify-between">
+        <h1 class="p-1 mt-3 text-4xl font-bold"><span class="text-blue-500">Welcome, </span>Login</h1>
+        <div class="mt-2">
+            <img alt="logo" class="rounded-full" src="./public/assets/img/logo.jpg" width="200px">
         </div>
+        <form class="flex flex-col justify-evenly p-4 gap-5 w-fit h-fit items-center" id="loginForm">
+            <label class="flex justify-evenly flex-col gap-1">
+                <span class="text-blue-500 font-bold">Email</span>
+                <input class="fld rounded focus:border-2 bg-slate-50 p-1 w-fit h-fit lg:h-[2.5rem] lg:w-[25rem] font-semibold hover:border-2 border-blue-500"
+                       id="emailFld"
+                       name="email" required type="email">
+            </label>
+            <label class="flex justify-evenly gap-1 flex-col">
+                <span class="text-blue-500 font-bold">Password</span>
+                <input class="fld rounded focus:border-2 bg-slate-50 p-1 w-fit h-fit lg:h-[2.5rem] lg:w-[25rem] border-blue-500 font-semibold hover:border-2"
+                       id="passwordFld"
+                       name="password" required type="password">
+            </label>
+            <button id="loginBtn" class="w-[10rem] flex bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded text-sm px-5 py-2.5  mr-2 items-center text-center justify-center font-bold text-white"
+                    type="submit">
+                <svg id="btnLoadingAnimation" aria-hidden="true" class="hidden mr-3 w-4 h-4 text-white animate-spin"
+                     fill="none" role="status"
+                     viewBox="0 0 100 101" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                          fill="#E5E7EB"></path>
+                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                          fill="currentColor"></path>
+                </svg>
+                Login
+            </button>
+            <div class="flex gap-10 flex-col justify-between mb-2 md:flex-row">
+                <a class="text-md font-medium hover:text-blue-500" href="./public/directory/register.html">Not Register?</a>
+                <a class="text-md font-medium hover:text-blue-500" href="./public/directory/forgot-password.html">Forgot
+                    Password?</a>
+            </div>
+        </form>
+        <p class="absolute font-light text-sm left-0 bottom-0 p-1 m-1">V1.0.0</p>
     </section>
-    <section class="SignInForm">
-
-    </section>
-
+</main>
+<main class="flex lg:hidden m-1 gap-5 flex-row items-center w-[30rem] rounded-xl bg-orange-100 text-orange-700 p-4">
+    <h2 class="font-bold text-3xl flex justify-center items-center text-center">Your Screen Size is No Supported</h2>
+</main>
+<script src="./public/assets/js/constant.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="./public/assets/js/index.js"></script>
 </body>
 </html>
