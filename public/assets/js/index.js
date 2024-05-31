@@ -46,7 +46,7 @@ $('#loginForm').submit(function (e) {
         }),
         success: function (data) {
             console.log(data);
-            
+
             btnLoadingAnimation.removeClass("flex");
             btnLoadingAnimation.addClass("hidden");
             fld.prop("disabled", false);

@@ -11,7 +11,11 @@
     />
 </head>
 <body>
-<main class="flex justify-center items-center min-h-screen transition-all duration-500 relative overflow-x-hidden font-Roboto">
+<main class="flex xl:hidden m-1 gap-5 flex-row items-center w-[30rem] rounded-xl bg-orange-100 text-red-700 p-4">
+    <h2 class="font-bold text-3xl flex justify-center items-center text-center">Your Screen Size is No Supported</h2>
+</main>
+<main class="xl:flex hidden justify-center items-center min-h-screen transition-all duration-500 relative overflow-x-hidden font-Roboto">
+
     <div class="flex m-1 gap-5 flex-row items-center justify-centers transition-all duration-300 absolute top-0 right-[-100%] bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
          id="alert"
          role="alert">
@@ -39,7 +43,7 @@
             <div class="flex lg:flex-row flex-col justify-between gap-5 lg:gap-12">
                 <div class="flex flex-col gap-8 justify-between">
                     <label class="flex justify-between flex-col ">
-                    <span class="text-blue-500 font-bold">Email</span>
+                        <span class="text-blue-500 font-bold">Email</span>
                         <input class="rounded fld bg-slate-50 p-1 font-light border-blue-500 hover:border-2 lg:h-[2.5rem]  lg:w-[16rem]"
                                id="emailFld"
                                name="email"

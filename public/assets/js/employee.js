@@ -5,6 +5,9 @@ const employeeAlertMessage = $("#alert")
 const employeeSuccessMessage = $("#success")
 const employeeTableLoadingAnimation = $("#employeeTableLoadingAnimation")
 let employeeList = []
+let employeePageNumber = 0;
+$("#employeePageCountFld").text(employeePageNumber + 1)
+
 
 $("#showEmployeeAddForm").click(
     function () {
@@ -31,7 +34,7 @@ $("#searchEmployeeBtn").click(function () {
     employeeTableLoadingAnimation.removeClass("hidden")
     employeeTableLoadingAnimation.addClass("flex")
     $.ajax({
-        url: BASEURL + '/employees?pattern=' + searchEmployeeValue,
+        url: BASEURL + '/employee?pattern=' + searchEmployeeValue,
         type: 'GET',
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -193,9 +196,9 @@ $("#addEmployeeForm").submit(function (evt) {
     employeeBtnLoadingAnimation.removeClass("hidden")
     employeeBtnLoadingAnimation.addClass("flex")
     addEmployeeBtn.addClass("cursor-not-allowed")
-    if(code === ""){
+    if (code === "") {
         $.ajax({
-            url: BASEURL + '/employees',
+            url: BASEURL + '/employee',
             type: 'POST',
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -213,7 +216,7 @@ $("#addEmployeeForm").submit(function (evt) {
                 employeeBtnLoadingAnimation.addClass("hidden")
                 addEmployeeBtn.removeClass("cursor-not-allowed")
                 evt.target.reset();
-                loadEmployeeTable()
+                loadEmployeeTable(employeePageNumber, 20)
                 setEmployeeSuccessMessage("Employee added successfully!")
             },
             error: function (error) {
@@ -232,9 +235,9 @@ $("#addEmployeeForm").submit(function (evt) {
                 setEmployeeAlertMessage(message);
             }
         });
-    }else {
+    } else {
         $.ajax({
-            url: BASEURL + '/employees/'+code.toLowerCase(),
+            url: BASEURL + '/employee/' + code.toLowerCase(),
             type: 'PUT',
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -252,7 +255,7 @@ $("#addEmployeeForm").submit(function (evt) {
                 employeeBtnLoadingAnimation.addClass("hidden")
                 addEmployeeBtn.removeClass("cursor-not-allowed")
                 evt.target.reset();
-                loadEmployeeTable()
+                loadEmployeeTable(employeePageNumber, 20)
                 setEmployeeSuccessMessage("Employee added successfully!")
             },
             error: function (error) {
@@ -274,12 +277,12 @@ $("#addEmployeeForm").submit(function (evt) {
     }
 
 })
-const loadEmployeeTable = () => {
+const loadEmployeeTable = (page, limit) => {
     employeeTableLoadingAnimation.removeClass("hidden")
     employeeTableLoadingAnimation.addClass("flex")
 
     $.ajax({
-        url: BASEURL + '/employees',
+        url: BASEURL + '/employee' + `?page=${page}&limit=${limit}`,
         type: 'GET',
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -309,6 +312,7 @@ const setEmployeeTableContent = () => {
         employeeTableBody.append(
             `<tr class="odd:bg-white even:bg-gray-50 hover:bg-blue-200 font-light">
                         <td class="m-1 p-2">${employee.employeeId.toUpperCase()}</td>
+                        <td class="m-1 p-2"><img class="bg-cover rounded-full p-1 shadow-custom w-[8rem] h-[8rem]" src="data:image/jpeg;base64,${employee.image}" alt="employeeImg"></td>
                         <td class="m-1 p-2 capitalize">${employee.name}</td>
                         <td class="m-1 p-2 capitalize">${employee.status}</td>
                         <td class="m-1 p-2 capitalize">${employee.gender}</td>
@@ -345,11 +349,11 @@ $([document]).on("click", "#emloyeeDeleteBtn", function (e) {
     const id = e.target.value;
     console.log(id);
     $.ajax({
-        url: BASEURL + "/employees/" + id, method: "DELETE", headers: {
+        url: BASEURL + "/employee/" + id, method: "DELETE", headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
         }, success: function (response) {
             console.log(response);
-            loadEmployeeTable()
+            loadEmployeeTable(employeePageNumber, 20)
             setEmployeeSuccessMessage("Employee deleted successfully!");
         }, error: function (response) {
             console.log(response);
@@ -420,6 +424,29 @@ const setEmployeeAlertMessage = (message) => {
     }, 5000)
 }
 $("#employeeTableRefreshBtn").click(() => {
-    loadEmployeeTable()
+    loadEmployeeTable(employeePageNumber, 20)
 })
-loadEmployeeTable()
+const navigateEmployeeTable = (where) => {
+    if (where === "next") {
+        employeePageNumber++
+        if (employeeList.length === 0) {
+            employeePageNumber = 0;
+            $("#employeePageCountFld").text(employeePageNumber + 1)
+            loadEmployeeTable(employeePageNumber, 20)
+            return
+        }
+        $("#employeePageCountFld").text(employeePageNumber + 1)
+        loadEmployeeTable(employeePageNumber, 20)
+    } else if (where === "prev") {
+        employeePageNumber --
+        if (employeePageNumber < 0) {
+            employeePageNumber = 0;
+            $("#employeePageCountFld").text(employeePageNumber + 1)
+            loadEmployeeTable(employeePageNumber, 20)
+            return;
+        }
+        $("#employeePageCountFld").text(employeePageNumber + 1)
+        loadEmployeeTable(employeePageNumber, 20)
+    }
+}
+loadEmployeeTable(employeePageNumber, 20)

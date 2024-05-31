@@ -22,7 +22,7 @@ $('#orderCustomerIdFld').on('keypress', function (e) {
             orderCustomerIdFldAnimation.removeClass("hidden")
             orderCustomerIdFldAnimation.addClass("flex")
             $.ajax({
-                url: BASEURL + "/customers/" + val,
+                url: BASEURL + "/customer/" + val,
                 method: "GET",
                 processData: false,
                 contentType: false,
@@ -172,8 +172,7 @@ $("#addOrderBtn").click(function (e) {
     } else {
         quantityFld.removeClass("border-2 border-red-500")
     }
-
-    if (quantity > stock[size]) {
+    if (quantity > stock["size"+size]) {
         setInventoryAlertMessage("Not enough stock")
         quantityFld.addClass("border-2 border-red-500")
         return;
@@ -183,7 +182,7 @@ $("#addOrderBtn").click(function (e) {
 
     const total = item.sellingPrice * quantity;
     orderTotal += total;
-    stock[size] -= quantity;
+    stock["size"+size] -= quantity;
     const number = Math.round(orderTotal * 100) / 100;
     const orderCartItem = {
         id: number,
@@ -212,7 +211,7 @@ const addToCartTable = (orderCartItem) => {
     const table = $("#orderTableBody");
     table.append
     (
-        `<tr class="odd:bg-white even:bg-gray-50 hover:bg-blue-200 font-light" id="">
+        `<tr class="odd:bg-white even:bg-gray-50 hover:bg-blue-200 font-light">
             <td class="m-1 p-2 uppercase">${orderCartItem.itemId}</td>
             <td class="m-1 p-2 capitalize">${orderCartItem.description}</td>
             <td class="m-1 p-2 capitalize">${orderCartItem.size}</td>
@@ -293,12 +292,12 @@ $("#cashCheckoutConfirmBtn").click(function (e) {
         method: "POST",
         processData: false,
         contentType: "application/json",
+        responseType: 'blob',
         data: order,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token")
         },
-        success: function (res) {
-            console.log(res);
+        success: async function (res) {
             btnLoadingAnimation.removeClass("flex")
             btnLoadingAnimation.addClass("hidden")
             setInventorySuccessMessage("Order placed successfully")
@@ -321,6 +320,18 @@ $("#cashCheckoutConfirmBtn").click(function (e) {
             customerConfirmMark.addClass("hidden")
             $("#balanceFld").val("")
             setInventoryAlertMessage("Order placed successfully")
+
+            const binaryString = window.atob(res);
+            const binaryLen = binaryString.length;
+            const bytes = new Uint8Array(binaryLen);
+            for (let i = 0; i < binaryLen; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+
+            const newBlob = new Blob([bytes], {type: "application/pdf"});
+            const data = window.URL.createObjectURL(newBlob);
+
+            window.open(data)
         },
         error: function (error) {
             $("#cashFld").prop("disabled", false)
@@ -354,13 +365,13 @@ $("#cardCheckoutConfirmBtn").click(function (e) {
         url: BASEURL + "/sales",
         method: "POST",
         processData: false,
+        responseType: 'blob',
         contentType: "application/json",
         data: order,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token")
         },
-        success: function (res) {
-            console.log(res);
+        success: async function (res) {
             btnLoadingAnimation.removeClass("flex")
             btnLoadingAnimation.addClass("hidden")
             setInventorySuccessMessage("Order placed successfully")
@@ -382,13 +393,111 @@ $("#cardCheckoutConfirmBtn").click(function (e) {
             orderItemIdFld.val("")
             orderItemIdFld.prop("disabled", false)
             orderItemIdFld.addClass("hover:border-2")
-            setInventoryAlertMessage("Order placed successfully")
+
+
+            const binaryString = window.atob(res);
+            const binaryLen = binaryString.length;
+            const bytes = new Uint8Array(binaryLen);
+            for (let i = 0; i < binaryLen; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+
+            const newBlob = new Blob([bytes], {type: "application/pdf"});
+            const data = window.URL.createObjectURL(newBlob);
+
+            window.open(data)
+
         },
         error: function (error) {
             $("#cardNumberFld").prop("disabled", false)
             btnLoadingAnimation.removeClass("flex")
             btnLoadingAnimation.addClass("hidden")
             console.log(error);
+        }
+    })
+})
+$("#lastInvoiceBtn").click(function (e) {
+    $.ajax({
+        url: BASEURL + "/sales/invoices/last",
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function (res) {
+            const binaryString = window.atob(res);
+            const binaryLen = binaryString.length;
+            const bytes = new Uint8Array(binaryLen);
+            for (let i = 0; i < binaryLen; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+
+            const newBlob = new Blob([bytes], {type: "application/pdf"});
+            const data = window.URL.createObjectURL(newBlob);
+
+            window.open(data)
+        },
+        error: function (error) {
+            console.log(error);
+            setInventoryAlertMessage("Invoice not found")
+        }
+    })
+})
+
+$("#invoiceBtn").click(function (evt) {
+    $("#invoiceFormDiv").removeClass("hidden")
+    $("#invoiceBtn").addClass("flex")
+
+})
+
+$("#invoiceFormDivCloseBtn").click(function (evt) {
+    $("#invoiceFormDiv").addClass("hidden")
+    $("#invoiceBtn").removeClass("flex")
+
+    $("#invoiceOrderIdFld").val("")
+})
+
+$("#getInvoiceBtn").click(function (evt) {
+    const orderId = $("#invoiceOrderIdFld").val().toString().trim()
+
+    if (!/^sal\d{8,10}$/.test(orderId)) {
+        $("#invoiceOrderIdFld").addClass("border-2 border-red-500")
+    }else {
+        $("#invoiceOrderIdFld").removeClass("border-2 border-red-500")
+    }
+    $("#invoiceConfirmBtnLoadingAnimationCard").removeClass("hidden")
+    $("#invoiceConfirmBtnLoadingAnimationCard").addClass("flex")
+    $.ajax({
+        url: BASEURL + "/sales/invoices/" + orderId,
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + window.localStorage.getItem("token")
+        },
+        success: function (response) {
+            console.log(response)
+            $("#invoiceConfirmBtnLoadingAnimationCard").addClass("hidden")
+            $("#invoiceConfirmBtnLoadingAnimationCard").removeClass("flex")
+
+            const binaryString = window.atob(response);
+            const binaryLen = binaryString.length;
+            const bytes = new Uint8Array(binaryLen);
+            for (let i = 0; i < binaryLen; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+
+            const newBlob = new Blob([bytes], {type: "application/pdf"});
+            const data = window.URL.createObjectURL(newBlob);
+
+            window.open(data)
+        },
+        error: function (error) {
+            console.log(error)
+            $("#invoiceConfirmBtnLoadingAnimationCard").addClass("hidden")
+            $("#invoiceConfirmBtnLoadingAnimationCard").removeClass("flex")
+            let message = "Error loading invoice!"
+            if (error.responseJSON) {
+                message = error.responseJSON.message
+            }
+            setInventoryAlertMessage(message)
         }
     })
 })
