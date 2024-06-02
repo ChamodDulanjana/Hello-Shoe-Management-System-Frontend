@@ -60,7 +60,7 @@ $("#searchCustomerBtn").click(function () {
     $("#customerTableLoadingAnimation").removeClass("hidden")
     console.log(val);
     $.ajax({
-        url: BASEURL + "/customer?pattern=" + val, method: "GET", headers: {
+        url: BASEURL + "/customers?pattern=" + val, method: "GET", headers: {
             "Authorization": "Bearer " + localStorage.getItem("token")
         }, success: function (response) {
             console.log(response);
@@ -83,6 +83,7 @@ $("#searchCustomerBtn").click(function () {
 const setCustomerTable = () => {
     $("#customerTableBody").empty();
     customersList.forEach(customer => {
+        console.log(customer)
         const doj = customer.doj[0] + "-" + customer.doj[1] + "-" + customer.doj[2]
         const recentDateAndTime = customer.recentPurchaseDateAndTime[0] + "-" + customer.recentPurchaseDateAndTime[1] + "-" + customer.recentPurchaseDateAndTime[2] + " " + customer.recentPurchaseDateAndTime[3] + ":" + customer.recentPurchaseDateAndTime[4]
         $("#customerTableBody").append(`<tr class="odd:bg-white even:bg-gray-50 hover:bg-blue-200 font-light">
@@ -189,7 +190,7 @@ $("#addCustomerForm").submit(function (e) {
         cFld.removeClass("hover:border-2")
 
         $.ajax({
-            url: BASEURL + "/customer/" + code, method: "PUT", contentType: "application/json", headers: {
+            url: BASEURL + "/customers/" + code, method: "PUT", contentType: "application/json", headers: {
                 Authorization: "Bearer " + localStorage.getItem("token")
             }, data: data, success: function (response) {
                 console.log(response);
@@ -229,7 +230,7 @@ $("#addCustomerForm").submit(function (e) {
         cFld.removeClass("hover:border-2")
 
         $.ajax({
-            url: BASEURL + "/customer", method: "POST", contentType: "application/json", headers: {
+            url: BASEURL + "/customers", method: "POST", contentType: "application/json", headers: {
                 Authorization: "Bearer " + localStorage.getItem("token")
             }, data: data, success: function (response) {
                 console.log(response);
@@ -266,7 +267,7 @@ $("#addCustomerForm").submit(function (e) {
 const loadCustomerTable = (page, limit) => {
     $("#customerTableLoadingAnimation").removeClass("hidden")
     $.ajax({
-        url: BASEURL + "/customer?page=" + page + "&limit=" + limit, method: "GET", headers: {
+        url: BASEURL + "/customers?page=" + page + "&limit=" + limit, method: "GET", headers: {
             "Authorization": "Bearer " + localStorage.getItem("token")
         }, success: function (response) {
             console.log(response);
@@ -300,7 +301,7 @@ $([document]).on("click", "#customerDeleteBtn", function (e) {
     const id = e.target.value;
     console.log(id);
     $.ajax({
-        url: BASEURL + "/customer/" + id, method: "DELETE", headers: {
+        url: BASEURL + "/customers/" + id, method: "DELETE", headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
         }, success: function (response) {
             console.log(response);

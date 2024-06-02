@@ -34,7 +34,7 @@ $("#searchEmployeeBtn").click(function () {
     employeeTableLoadingAnimation.removeClass("hidden")
     employeeTableLoadingAnimation.addClass("flex")
     $.ajax({
-        url: BASEURL + '/employee?pattern=' + searchEmployeeValue,
+        url: BASEURL + '/employees?pattern=' + searchEmployeeValue,
         type: 'GET',
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -198,7 +198,7 @@ $("#addEmployeeForm").submit(function (evt) {
     addEmployeeBtn.addClass("cursor-not-allowed")
     if (code === "") {
         $.ajax({
-            url: BASEURL + '/employee',
+            url: BASEURL + '/employees',
             type: 'POST',
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -237,7 +237,7 @@ $("#addEmployeeForm").submit(function (evt) {
         });
     } else {
         $.ajax({
-            url: BASEURL + '/employee/' + code.toLowerCase(),
+            url: BASEURL + '/employees/' + code.toLowerCase(),
             type: 'PUT',
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -282,7 +282,7 @@ const loadEmployeeTable = (page, limit) => {
     employeeTableLoadingAnimation.addClass("flex")
 
     $.ajax({
-        url: BASEURL + '/employee' + `?page=${page}&limit=${limit}`,
+        url: BASEURL + '/employees' + `?page=${page}&limit=${limit}`,
         type: 'GET',
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -349,7 +349,7 @@ $([document]).on("click", "#emloyeeDeleteBtn", function (e) {
     const id = e.target.value;
     console.log(id);
     $.ajax({
-        url: BASEURL + "/employee/" + id, method: "DELETE", headers: {
+        url: BASEURL + "/employees/" + id, method: "DELETE", headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
         }, success: function (response) {
             console.log(response);

@@ -22,7 +22,7 @@ $('#orderCustomerIdFld').on('keypress', function (e) {
             orderCustomerIdFldAnimation.removeClass("hidden")
             orderCustomerIdFldAnimation.addClass("flex")
             $.ajax({
-                url: BASEURL + "/customer/" + val,
+                url: BASEURL + "/customers/" + val,
                 method: "GET",
                 processData: false,
                 contentType: false,
@@ -320,18 +320,6 @@ $("#cashCheckoutConfirmBtn").click(function (e) {
             customerConfirmMark.addClass("hidden")
             $("#balanceFld").val("")
             setInventoryAlertMessage("Order placed successfully")
-
-            const binaryString = window.atob(res);
-            const binaryLen = binaryString.length;
-            const bytes = new Uint8Array(binaryLen);
-            for (let i = 0; i < binaryLen; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-
-            const newBlob = new Blob([bytes], {type: "application/pdf"});
-            const data = window.URL.createObjectURL(newBlob);
-
-            window.open(data)
         },
         error: function (error) {
             $("#cashFld").prop("disabled", false)
@@ -394,110 +382,12 @@ $("#cardCheckoutConfirmBtn").click(function (e) {
             orderItemIdFld.prop("disabled", false)
             orderItemIdFld.addClass("hover:border-2")
 
-
-            const binaryString = window.atob(res);
-            const binaryLen = binaryString.length;
-            const bytes = new Uint8Array(binaryLen);
-            for (let i = 0; i < binaryLen; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-
-            const newBlob = new Blob([bytes], {type: "application/pdf"});
-            const data = window.URL.createObjectURL(newBlob);
-
-            window.open(data)
-
         },
         error: function (error) {
             $("#cardNumberFld").prop("disabled", false)
             btnLoadingAnimation.removeClass("flex")
             btnLoadingAnimation.addClass("hidden")
             console.log(error);
-        }
-    })
-})
-$("#lastInvoiceBtn").click(function (e) {
-    $.ajax({
-        url: BASEURL + "/sales/invoices/last",
-        method: "GET",
-        headers: {
-            "Authorization": "Bearer " + localStorage.getItem("token")
-        },
-        success: function (res) {
-            const binaryString = window.atob(res);
-            const binaryLen = binaryString.length;
-            const bytes = new Uint8Array(binaryLen);
-            for (let i = 0; i < binaryLen; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-
-            const newBlob = new Blob([bytes], {type: "application/pdf"});
-            const data = window.URL.createObjectURL(newBlob);
-
-            window.open(data)
-        },
-        error: function (error) {
-            console.log(error);
-            setInventoryAlertMessage("Invoice not found")
-        }
-    })
-})
-
-$("#invoiceBtn").click(function (evt) {
-    $("#invoiceFormDiv").removeClass("hidden")
-    $("#invoiceBtn").addClass("flex")
-
-})
-
-$("#invoiceFormDivCloseBtn").click(function (evt) {
-    $("#invoiceFormDiv").addClass("hidden")
-    $("#invoiceBtn").removeClass("flex")
-
-    $("#invoiceOrderIdFld").val("")
-})
-
-$("#getInvoiceBtn").click(function (evt) {
-    const orderId = $("#invoiceOrderIdFld").val().toString().trim()
-
-    if (!/^sal\d{8,10}$/.test(orderId)) {
-        $("#invoiceOrderIdFld").addClass("border-2 border-red-500")
-    }else {
-        $("#invoiceOrderIdFld").removeClass("border-2 border-red-500")
-    }
-    $("#invoiceConfirmBtnLoadingAnimationCard").removeClass("hidden")
-    $("#invoiceConfirmBtnLoadingAnimationCard").addClass("flex")
-    $.ajax({
-        url: BASEURL + "/sales/invoices/" + orderId,
-        method: "GET",
-        headers: {
-            "Authorization": "Bearer " + window.localStorage.getItem("token")
-        },
-        success: function (response) {
-            console.log(response)
-            $("#invoiceConfirmBtnLoadingAnimationCard").addClass("hidden")
-            $("#invoiceConfirmBtnLoadingAnimationCard").removeClass("flex")
-
-            const binaryString = window.atob(response);
-            const binaryLen = binaryString.length;
-            const bytes = new Uint8Array(binaryLen);
-            for (let i = 0; i < binaryLen; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-
-            const newBlob = new Blob([bytes], {type: "application/pdf"});
-            const data = window.URL.createObjectURL(newBlob);
-
-            window.open(data)
-        },
-        error: function (error) {
-            console.log(error)
-            $("#invoiceConfirmBtnLoadingAnimationCard").addClass("hidden")
-            $("#invoiceConfirmBtnLoadingAnimationCard").removeClass("flex")
-            let message = "Error loading invoice!"
-            if (error.responseJSON) {
-                message = error.responseJSON.message
-            }
-            setInventoryAlertMessage(message)
         }
     })
 })

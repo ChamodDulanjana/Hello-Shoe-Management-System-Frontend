@@ -1,11 +1,3 @@
-/*
-Authenticate User with Email and Password
-Get email and role to authorize user
-Set user authorization
-Set admin authorization
-Redirect to Unauthorized page
-*/
-
 const alertMessage = $("#alert");
 const btnLoadingAnimation = $("#btnLoadingAnimation");
 const fld = $(".fld");
@@ -46,7 +38,7 @@ $('#loginForm').submit(function (e) {
         }),
         success: function (data) {
             console.log(data);
-
+            
             btnLoadingAnimation.removeClass("flex");
             btnLoadingAnimation.addClass("hidden");
             fld.prop("disabled", false);

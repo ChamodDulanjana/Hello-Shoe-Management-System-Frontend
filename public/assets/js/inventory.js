@@ -398,7 +398,7 @@ $('#inventorySupplierFindBtn').click(function (e) {
     }
 
     $.ajax({
-        url: BASEURL + "/supplier/" + value,
+        url: BASEURL + "/suppliers/" + value,
         method: "GET",
         headers: {
             "Authorization": "Bearer " + window.localStorage.getItem("token")

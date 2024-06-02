@@ -15,7 +15,11 @@
     <h2 class="font-bold text-3xl flex justify-center items-center text-center">Your Screen Size is No Supported</h2>
 </main>
 <main class="xl:flex hidden justify-center items-center min-h-screen transition-all duration-500 relative overflow-x-hidden font-Roboto">
-
+    <div style="width: 180px">
+    </div>
+    <div class="ml-52 relative right-36">
+        <img alt="bgi" class="" src="../assets/img/shoes.png" width="500px">
+    </div>
     <div class="flex m-1 gap-5 flex-row items-center justify-centers transition-all duration-300 absolute top-0 right-[-100%] bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
          id="alert"
          role="alert">
@@ -37,60 +41,39 @@
         <button class="font-black hover:cursor-hand" id="successCloseBtn">X</button>
     </div>
     <section
-            class="flex-col flex rounded-xl items-center bg-blue-100 w-fit h-fit  shadow mx-auto my-auto relative">
+            class="flex-col flex rounded-xl items-center w-fit h-fit  shadow mx-auto my-auto relative" id="reg" >
         <h1 class="p-1 pt-3 text-2xl font-bold">Register</h1>
         <form class="flex flex-col justify-evenly p-4 gap-10" id="registerForm">
-            <div class="flex lg:flex-row flex-col justify-between gap-5 lg:gap-12">
-                <div class="flex flex-col gap-8 justify-between">
-                    <label class="flex justify-between flex-col ">
-                        <span class="text-blue-500 font-bold">Email</span>
-                        <input class="rounded fld bg-slate-50 p-1 font-light border-blue-500 hover:border-2 lg:h-[2.5rem]  lg:w-[16rem]"
-                               id="emailFld"
-                               name="email"
-                               placeholder="Email" type="email">
-                    </label>
+            <label class="flex justify-between flex-col ">
+                <span class="text-blue-500 font-bold">Email</span>
+                <input class="rounded fld bg-slate-50 p-1 font-light border-blue-500 hover:border-2 lg:h-[2.5rem]  lg:w-[16rem]"
+                       id="emailFld"
+                       name="email"
+                       placeholder="Email" type="email">
+            </label>
 
-                    <label class="flex justify-between gap-1 flex-col">
-                        <span class="font-bold text-blue-500">OTP</span>
-                        <div>
-                            <input class="rounded fld bg-slate-50 w-[6rem] lg:h-[2.5rem] p-1 font-light border-blue-500 hover:border-2"
-                                   id="otpFld"
-                                   name="otp"
-                                   placeholder="OTP"
-                                   type="number"
-                            >
-                            <button class="ml-1 p-1 rounded font-semibold bg-red-400 hover:bg-red-500 text-sm text-slate-100"
-                                    id="otpSendBtn"
-                                    type="button">
-                                Send OTP
-                            </button>
-                        </div>
-                    </label>
-                </div>
-                <div class="flex flex-col justify-between">
-                    <label class="flex justify-between flex-col">
-                        <span class="font-bold text-blue-500">New Password</span>
-                        <input class="rounded fld bg-slate-50 p-1 lg:w-[16rem] lg:h-[2.5rem]  font-light border-blue-500 hover:border-2"
-                               id="password1Fld"
-                               name="password1"
-                               placeholder="New Password"
-                               type="password"
-                        >
-                    </label>
-                    <label class="flex justify-between gap-1 flex-col">
-                        <span class="font-bold text-blue-500">Confirm Password</span>
-                        <input class="fld rounded bg-slate-50 lg:w-[16rem] lg:h-[2.5rem] p-1 font-light border-blue-500 hover:border-2"
-                               id="password2Fld"
-                               name="password2"
-                               placeholder="Confirm Password"
-                               type="password"
-                        >
-                    </label>
+            <label class="flex justify-between flex-col">
+                <span class="font-bold text-blue-500">New Password</span>
+                <input class="rounded fld bg-slate-50 p-1 lg:w-[16rem] lg:h-[2.5rem]  font-light border-blue-500 hover:border-2"
+                       id="password1Fld"
+                       name="password1"
+                       placeholder="New Password"
+                       type="password"
+                >
+            </label>
+            <label class="flex justify-between gap-1 flex-col">
+                <span class="font-bold text-blue-500">Confirm Password</span>
+                <input class="fld rounded bg-slate-50 lg:w-[16rem] lg:h-[2.5rem] p-1 font-light border-blue-500 hover:border-2"
+                       id="password2Fld"
+                       name="password2"
+                       placeholder="Confirm Password"
+                       type="password"
+                >
+            </label>
 
-                </div>
-            </div>
             <div class="flex justify-center items-center">
-                <button id="registerBtn" class="w-[10rem] flex bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded text-sm px-5 py-2.5  mr-2 items-center text-center justify-center font-bold text-white"
+                <button id="registerBtn"
+                        class="w-[10rem] flex bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded text-sm px-5 py-2.5  mr-2 items-center text-center justify-center font-bold text-white"
                         type="submit">
                     <svg id="btnLoadingAnimation" aria-hidden="true" class="hidden mr-3 w-4 h-4 text-white animate-spin"
                          fill="none" role="status"
@@ -103,16 +86,15 @@
                     Register
                 </button>
             </div>
-            <div class="flex flex-col justify-between md:flex-row mb-2">
-                <a class="text-md lg:hover:text-blue-500 font-medium" href="../../index.html">Login?</a>
-                <a class="text-md lg:hover:text-blue-500 font-medium" href="./forgot-password.html">Forgot Password?</a>
+            <div class="flex flex-col justify-between md:flex-col mb-2 mt-0 items-center">
+                <a class="text-md lg:hover:text-blue-500 font-medium" href="../../index.html">Login here</a>
             </div>
         </form>
 
-        <p class="absolute font-light text-sm left-0 bottom-0 p-1 m-1">V1.0.0</p>
     </section>
 </main>
 <script src="../assets/js/constant.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="../assets/js/register.js"></script></body>
+<script src="../assets/js/register.js"></script>
+</body>
 </html>
